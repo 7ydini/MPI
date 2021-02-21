@@ -14,26 +14,26 @@ int main(int argc, char* argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
 	for (int i = 0; i < m; i++)
 	{
+		MPI_Barrier(MPI_COMM_WORLD);
 		if (ProcRank == 0) {
 				MPI_Send(&ProcRank, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
-				printf("\nProcess %d send to 1 process \n", ProcRank, 1);
+				printf("\nSend 0 to 1 process \n");
 				MPI_Recv(&RecvRank, 1, MPI_INT, ProcNum - 1, MPI_ANY_TAG, MPI_COMM_WORLD, &Status);	
-				printf("\nAnswer from process %d to %d process \n", RecvRank, ProcRank);
+				//printf("\nAnswer from %d to %d process \n", RecvRank, ProcRank);
 		}
 		
-		if (ProcRank < ProcNum - 1 && ProcRank > 0)
+		if (ProcRank < ProcNum - 1 && ProcRank != 0)
 		{
 			MPI_Recv(&RecvRank, 1, MPI_INT, ProcRank - 1, MPI_ANY_TAG, MPI_COMM_WORLD, &Status);
-			printf("\nMessage received from process %d to %d process \n", RecvRank, ProcRank);
 			MPI_Send(&ProcRank, 1, MPI_INT, ProcRank + 1, 0, MPI_COMM_WORLD);
-			printf("\nSend %d to %d process \n", ProcRank, ProcRank + 1);
+			printf("\nRecv from %d to %d process \n", RecvRank, ProcRank);
 		}	
-		
+
 		if(ProcRank == ProcNum - 1 ){
 			MPI_Recv(&RecvRank, 1, MPI_INT, ProcNum - 2, MPI_ANY_TAG, MPI_COMM_WORLD, &Status);
-			printf("\nMessage received from process %d to %d process \n", RecvRank, ProcRank);
 			MPI_Send(&ProcRank, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
-			printf("\nSend %d to %d process \n", ProcRank, 0);
+			printf("\nRecv from %d to %d process \n", RecvRank, ProcRank);
+			printf("\nSend from %d to 0 process \n", ProcRank);
 		}
 	}
 	MPI_Finalize();
