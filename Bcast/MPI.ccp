@@ -15,8 +15,9 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < m; i++)
 	{
 		for (int j = 0; j < ProcNum; j++) {
-			MPI_Bcast(&ProcRank, 1, MPI_INT, j, MPI_COMM_WORLD);
+			
 			if (ProcRank == j) {
+      				MPI_Bcast(&ProcRank, 1, MPI_INT, j, MPI_COMM_WORLD);
 				printf("\nSend from %d to all process \n", ProcRank);
 			}
 			else {
