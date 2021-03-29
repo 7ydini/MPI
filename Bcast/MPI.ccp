@@ -12,8 +12,8 @@ int main(int argc, char* argv[])
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &ProcNum);
 	MPI_Comm_rank(MPI_COMM_WORLD, &ProcRank);
-	for (int i = 0; i < m; i++)
-	{
+	for (int i = 0; i < m; i++){
+       		
 		for (int j = 0; j < ProcNum; j++) {
 			
 			if (ProcRank == j) {
