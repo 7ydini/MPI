@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 					for (int i = 0; i < n; i++) {
 						count += matrix[h][i] * matrix[i][h];
 					}
-					MPI_Send(&count, count, MPI_INT, 0, j, MPI_COMM_WORLD);
+					MPI_Send(&RecvRank, count, MPI_INT, 0, j, MPI_COMM_WORLD);
 				}
 				if (ProcRank == 0) {
 					MPI_Recv(&buffmatrix[h][j], 1, MPI_INT, j, MPI_ANY_TAG, MPI_COMM_WORLD, &Status);
